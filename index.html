@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pahile Pahil — A Chhath Puja Experience</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&family=Niconne&display=swap" rel="stylesheet">
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <style>
+        :root {
+            --saffron: #FF7722;
+            --deep-orange: #E64A19;
+            --gold: #FFD700;
+            --river-dark: #1a2a3a;
+            --mist: rgba(255, 245, 230, 0.8);
+            --glass: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: url('https://img.icons8.com/ios-filled/20/ff7722/sun.png'), auto; }
+
+        body {
+            background: linear-gradient(to bottom, #1a2a3a, #4a3a3a, #FF7722, #FFD700);
+            background-attachment: fixed;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Nostalgic Film Grain Overlay */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/stardust.png');
+            opacity: 0.2;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Morning Mist Animation */
+        .mist-layer {
+            position: fixed;
+            bottom: 0;
+            width: 200%;
+            height: 40vh;
+            background: linear-gradient(to top, rgba(255,255,255,0.4), transparent);
+            filter: blur(50px);
+            animation: drift 20s linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes drift {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        /* Header Area */
+        header {
+            position: absolute;
+            top: 10%;
+            text-align: center;
+            z-index: 5;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 10vw, 6rem);
+            font-weight: 700;
+            letter-spacing: -2px;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin-bottom: 10px;
+            background: linear-gradient(to bottom, #fff, #FFD700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-family: 'Niconne', cursive;
+            font-size: 1.8rem;
+            color: #ffe0b2;
+            opacity: 0.9;
+        }
+
+        /* Central Visual: The Soop & Diya */
+        .central-visual {
+            position: relative;
+            z-index: 4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .soop {
+            width: 300px;
+            height: 200px;
+            background: #d4a76a;
+            border-radius: 50% 50% 10% 10% / 80% 80% 20% 20%;
+            border: 8px solid #bc8f4f;
+            box-shadow: inset 0 -20px 40px rgba(0,0,0,0.4), 0 30px 60px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .soop::after {
+            content: "";
+            position: absolute;
+            width: 100%; height: 100%;
+            background: repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(0,0,0,0.1) 11px);
+        }
+
+        .diya {
+            width: 60px;
+            height: 30px;
+            background: #8d4925;
+            border-radius: 0 0 50px 50px;
+            position: absolute;
+            bottom: 40px;
+            z-index: 6;
+        }
+
+        .flame {
+            width: 20px;
+            height: 35px;
+            background: radial-gradient(circle at 50% 100%, #fff, #ffcc00, #ff4400);
+            border-radius: 50% 50% 20% 20%;
+            position: absolute;
+            top: -30px;
+            left: 20px;
+            filter: blur(1px);
+            animation: flicker 0.1s infinite alternate;
+            box-shadow: 0 0 40px #ff4400;
+        }
+
+        @keyframes flicker {
+            0% { transform: scale(1) rotate(-1deg); opacity: 0.9; }
+            100% { transform: scale(1.1) rotate(1deg); opacity: 1; }
+        }
+
+        /* Floating Memories */
+        .memory-tag {
+            position: absolute;
+            padding: 8px 15px;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #fff;
+            white-space: nowrap;
+            pointer-events: none;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+        }
+
+        /* Rotating Quotes */
+        #quote-container {
+            position: absolute;
+            top: 25%;
+            width: 100%;
+            text-align: center;
+            font-style: italic;
+            color: #ffe0b2;
+            height: 30px;
+            transition: opacity 0.5s;
+        }
+
+        /* Glassmorphism Music Player */
+        .player-container {
+            position: fixed;
+            bottom: 30px;
+            width: 90%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            padding: 20px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+
+        .track-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .track-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #fff;
+            width: 70%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .status-badge {
+            background: var(--saffron);
+            font-size: 0.6rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .control-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.2s, color 0.2s;
+        }
+
+        .control-btn:hover { color: var(--gold); transform: scale(1.1); }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gold);
+            width: 0%;
+            border-radius: 2px;
+        }
+
+        /* Secret Interaction: Shankh/Ripple Effect */
+        .ripple {
+            position: fixed;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: ripple-out 1s linear forwards;
+            z-index: 20;
+        }
+
+        @keyframes ripple-out {
+            from { width: 0; height: 0; opacity: 1; transform: translate(-50%, -50%); }
+            to { width: 500px; height: 500px; opacity: 0; transform: translate(-50%, -50%); }
+        }
+
+        /* Sugarcane Decorations */
+        .sugarcane {
+            position: fixed;
+            bottom: -20px;
+            width: 15px;
+            height: 60vh;
+            background: #4a5d23;
+            z-index: 2;
+            border-radius: 10px;
+        }
+        .sugarcane.left { left: 10%; transform: rotate(-5deg); }
+        .sugarcane.right { right: 10%; transform: rotate(5deg); }
+        .sugarcane::before {
+            content: "🍃";
+            position: absolute;
+            top: 20px; font-size: 2rem;
+        }
+
+        #youtube-player { display: none; }
+
+        @media (max-width: 600px) {
+            .soop { width: 220px; height: 150px; }
+            .memory-tag { display: none; }
+            h1 { font-size: 3.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mist-layer"></div>
+    
+    <div class="sugarcane left"></div>
+    <div class="sugarcane right"></div>
+
+    <header>
+        <div class="status-badge" style="display: inline-block; margin-bottom: 15px;">Setting: Surya Ghat, Bihar (1998)</div>
+        <h1>छठी मईया</h1>
+        <div class="subtitle">Pahile Pahil Hum Kaile...</div>
+    </header>
+
+    <div id="quote-container">Loading memories...</div>
+
+    <main class="central-visual" id="main-object">
+        <div class="soop">
+            <div class="diya">
+                <div class="flame"></div>
+            </div>
+        </div>
+        <p style="margin-top: 40px; font-size: 0.8rem; letter-spacing: 2px; color: #ffd700; text-transform: uppercase;">Press 'S' for Shankhnaad</p>
+    </main>
+
+    <!-- Floating Details -->
+    <div class="memory-tag" style="top: 20%; left: 15%;">Smell of Thekua & Ghee</div>
+    <div class="memory-tag" style="top: 45%; right: 12%;">Orange-stained fingertips</div>
+    <div class="memory-tag" style="bottom: 30%; left: 10%;">Cold Ganga Water</div>
+    <div class="memory-tag" style="top: 60%; left: 20%;">Brass Thali Clinking</div>
+    <div class="memory-tag" style="top: 30%; right: 20%;">Bamboo Baskets (Dauri)</div>
+
+    <!-- Hidden YouTube Player -->
+    <div id="youtube-player"></div>
+
+    <!-- Music Player UI -->
+    <div class="player-container">
+        <div class="track-info">
+            <div class="track-name" id="track-title">Sharda Sinha — Chhath Geet</div>
+            <div class="status-badge" id="player-status">Live</div>
+        </div>
+        
+        <div class="progress-bar" id="progress-container">
+            <div class="progress-fill" id="progress-bar"></div>
+        </div>
+
+        <div class="controls">
+            <button class="control-btn" onclick="prevTrack()">⏮</button>
+            <button class="control-btn" id="play-pause" onclick="togglePlay()" style="font-size: 2rem;">⏵</button>
+            <button class="control-btn" onclick="nextTrack()">⏭</button>
+        </div>
+    </div>
+
+    <script>
+        const quotes = [
+            "The sound of Sharda Sinha on a misty morning...",
+            "Fastened for 36 hours, but heart full of faith.",
+            "Watching the sun sink, then rise, standing in the river.",
+            "Crunchy Thekua with the pattern of the wooden mold.",
+            "Wearing a new cotton saree, shivering slightly in the November air.",
+            "Kanch hi baans ke behiniya, bahangi lachakat jaye...",
+            "The smell of incense mixing with the river mist."
+        ];
+
+        let quoteIndex = 0;
+        const quoteElem = document.getElementById('quote-container');
+
+        function rotateQuotes() {
+            quoteElem.style.opacity = 0;
+            setTimeout(() => {
+                quoteElem.innerText = quotes[quoteIndex];
+                quoteElem.style.opacity = 1;
+                quoteIndex = (quoteIndex + 1) % quotes.length;
+            }, 500);
+        }
+        setInterval(rotateQuotes, 4000);
+        rotateQuotes();
+
+        // YouTube API Integration
+        let player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtube-player', {
+                height: '0',
+                width: '0',
+                playerVars: {
+                    listType: 'playlist',
+                    list: 'PLBCJFsuH3Q4M',
+                    index: 0,
+                    startSeconds: 0
+                },
+                events: {
+                    'onStateChange': onPlayerStateChange,
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            updateProgressBar();
+        }
+
+        function onPlayerStateChange(event) {
+            const btn = document.getElementById('play-pause');
+            const status = document.getElementById('player-status');
+            
+            if (event.data == YT.PlayerState.PLAYING) {
+                btn.innerHTML = '⏸';
+                status.innerText = "Playing";
+                const data = player.getVideoData();
+                document.getElementById('track-title').innerText = data.title;
+            } else {
+                btn.innerHTML = '⏵';
+                status.innerText = "Paused";
+            }
+        }
+
+        function togglePlay() {
+            if (player.getPlayerState() == YT.PlayerState.PLAYING) {
+                player.pauseVideo();
+            } else {
+                player.playVideo();
+            }
+        }
+
+        function nextTrack() { player.nextVideo(); }
+        function prevTrack() { player.previousVideo(); }
+
+        function updateProgressBar() {
+            setInterval(() => {
+                if (player && player.getCurrentTime) {
+                    const duration = player.getDuration();
+                    const current = player.getCurrentTime();
+                    const percent = (current / duration) * 100;
+                    document.getElementById('progress-bar').style.width = percent + '%';
+                }
+            }, 1000);
+        }
+
+        // Interaction: Ripple & Shankh
+        document.addEventListener('keydown', (e) => {
+            if (e.key.toLowerCase() === 's') {
+                triggerInteraction(window.innerWidth/2, window.innerHeight/2);
+            }
+        });
+
+        document.addEventListener('mousedown', (e) => {
+            triggerInteraction(e.clientX, e.clientY);
+        });
+
+        function triggerInteraction(x, y) {
+            // Visual Ripple
+            const ripple = document.createElement('div');
+            ripple.className = 'ripple';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            document.body.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 1000);
+
+            // Movement to central object
+            const visual = document.getElementById('main-object');
+            visual.style.transform = 'scale(1.1) translateY(-10px)';
+            setTimeout(() => visual.style.transform = 'scale(1)', 300);
+
+            // Simulation of Shankh (Since we can't load external audio easily, we use a synth note)
+            playShankhSound();
+        }
+
+        function playShankhSound() {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+
+            oscillator.type = 'triangle';
+            oscillator.frequency.setValueAtTime(220, audioCtx.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(440, audioCtx.currentTime + 1);
+            
+            gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 0.1);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 2);
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            oscillator.start();
+            oscillator.stop(audioCtx.currentTime + 2);
+        }
+
+        // Progress bar seeking
+        document.getElementById('progress-container').addEventListener('click', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const clickedPercent = x / rect.width;
+            const newTime = player.getDuration() * clickedPercent;
+            player.seekTo(newTime, true);
+        });
+    </script>
+</body>
+</html>
